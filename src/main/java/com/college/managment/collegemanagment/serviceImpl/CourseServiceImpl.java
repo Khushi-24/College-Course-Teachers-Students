@@ -1,29 +1,19 @@
 package com.college.managment.collegemanagment.serviceImpl;
 
-import com.college.managment.collegemanagment.dao.CourseDao;
+import com.college.managment.collegemanagment.dto.CourseRequest;
+import com.college.managment.collegemanagment.repository.CourseRepository;
 import com.college.managment.collegemanagment.entities.Course;
 import com.college.managment.collegemanagment.service.CourseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CourseServiceImpl implements CourseService {
 
-    private final CourseDao courseDao;
-    //List<Course> list;
-
-    public CourseServiceImpl(CourseDao courseDao){
-        this.courseDao = courseDao;
-    }
-//    public CourseServiceImpl(){
-////        list = new ArrayList<>();
-////
-////        list.add(new Course(1, "Java", "In this subject you will learn about core concepts of Java.", "Dharmesh Tank", "Raj Sharma" ));
-////        list.add(new Course(218,"SpringBoot", "Rest APIs", "Siddharth Trevedi","Ravi Parmar"));
-//
-//    }
+    @Autowired
+    private  CourseRepository courseDao;
 
     @Override
     public List<Course> getCourses() {
@@ -32,7 +22,59 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course getcourse(long courseId) {
+
+        Course entity = courseDao.getOne(courseId);
+        //System.out.println(entity);
+        return entity;
+    }
+
+//    @Override
+//    public Course updateCourse(Course course) {
+//
+//        courseDao.save(course);
+//        return course;
+//    }
+
+
+    @Override
+    public Course deleteCourse(long courseId) {
+
+        Course entity = courseDao.getOne(courseId);
+        courseDao.delete(entity);
+        return null;
+    }
+
+    @Override
+    public Course addCourses(CourseRequest request) {
+        courseDao.save(request.getCourse());
+        return request.getCourse();
+    }
+
+    @Override
+    public Course updateCourse(CourseRequest courseRequest) {
+        courseDao.save(courseRequest.getCourse());
+        return courseRequest.getCourse();
+    }
+}
+
+
+
+
 /*
+   //List<Course> list;
+
+//    public CourseServiceImpl(CourseRepository courseDao){
+//        this.courseDao = courseDao;
+//    }
+//    public CourseServiceImpl(){
+////        list = new ArrayList<>();
+////
+////        list.add(new Course(1, "Java", "In this subject you will learn about core concepts of Java.", "Dharmesh Tank", "Raj Sharma" ));
+////        list.add(new Course(218,"SpringBoot", "Rest APIs", "Siddharth Trevedi","Ravi Parmar"));
+//
+//    }
+
+    /*
         Course c= null;
         for(Course course : list){
             if(course.getId() == courseId){
@@ -41,24 +83,13 @@ public class CourseServiceImpl implements CourseService {
             }
         }
         return c;
-*/
-        return courseDao.getById(courseId);
-    }
-
-    @Override
-    public Course addCourse(Course course) {
-        /*
+    */
+    /*
         list.add(course);
         return course;
          */
-        courseDao.save(course);
-        return course;
-    }
 
-    @Override
-    public Course updateCourse(Course course) {
-
-        /*
+    /*
         Course updated_course = null;
             for(Course c : list){
             if(c.getId() == course.getId()){
@@ -72,15 +103,8 @@ public class CourseServiceImpl implements CourseService {
         }
         return updated_course;
         */
-        courseDao.save(course);
-        return course;
-    }
 
-
-    @Override
-    public Course deleteCourse(long courseId) {
-
-        /*
+/*
         Course c = null;
         for(Course course : list)
         {
@@ -91,10 +115,4 @@ public class CourseServiceImpl implements CourseService {
             }
         }
         return c;
-         */
-
-        Course entity = courseDao.getOne(courseId);
-        courseDao.delete(entity);
-        return null;
-    }
-}
+ */

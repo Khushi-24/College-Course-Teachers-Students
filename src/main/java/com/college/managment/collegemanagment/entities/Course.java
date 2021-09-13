@@ -1,9 +1,19 @@
 package com.college.managment.collegemanagment.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+
 public class Course {
 
     @Id
@@ -11,8 +21,17 @@ public class Course {
     private String course_name;
     private String course_description;
     private String professor_name;
-    private String student;
+    //private Students student;
 
+    @OneToMany(targetEntity = Students.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "courseName_fk", referencedColumnName = "id")
+
+    private List<Students> studentsList;
+
+}
+
+
+/*
     @Override
     public String toString() {
         return "Course{" +
@@ -24,11 +43,12 @@ public class Course {
                 '}';
     }
 
-    public String getStudent() {
-        return student;
+    public String getStudent(Students s) {
+        this.student = s;
+        return String.valueOf(student);
     }
 
-    public void setStudent(String student) {
+    public void setStudent(Students student) {
         this.student = student;
     }
 
@@ -68,7 +88,7 @@ public class Course {
         super();
     }
 
-    public Course(long id, String course_name, String course_description, String professor_name, String student) {
+    public Course(long id, String course_name, String course_description, String professor_name, Students student) {
         super();
         this.id = id;
         this.course_name = course_name;
@@ -77,5 +97,4 @@ public class Course {
         this.student = student;
     }
 
-
-}
+*/

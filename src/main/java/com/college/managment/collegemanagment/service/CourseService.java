@@ -1,5 +1,6 @@
 package com.college.managment.collegemanagment.service;
 
+import com.college.managment.collegemanagment.dto.CourseRequest;
 import com.college.managment.collegemanagment.entities.Course;
 
 import java.util.List;
@@ -10,9 +11,9 @@ public interface CourseService {
 
     public Course getcourse(long courseId);
 
-    public Course addCourse(Course course);
+    public Course deleteCourse(long courseId);
 
-    Course updateCourse(Course course);
+    public Course addCourses(CourseRequest request);
 
-    Course deleteCourse(long courseId);
+    public Course updateCourse(CourseRequest courseRequest);
 }
