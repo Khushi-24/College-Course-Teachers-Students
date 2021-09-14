@@ -23,8 +23,13 @@ public class Course {
     private String professor_name;
     //private Students student;
 
-    @OneToMany(targetEntity = Students.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "courseName_fk", referencedColumnName = "id")
+//    @OneToMany(targetEntity = Students.class, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "courseName_fk", referencedColumnName = "id")
+
+    @ManyToMany(targetEntity = Students.class, cascade = CascadeType.ALL)
+    @JoinTable(name = "Student_Enrolled",
+               joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "enrollment_no"))
 
     private List<Students> studentsList;
 

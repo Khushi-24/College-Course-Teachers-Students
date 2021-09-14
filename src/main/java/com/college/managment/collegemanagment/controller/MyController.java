@@ -5,9 +5,12 @@ import com.college.managment.collegemanagment.entities.Course;
 import com.college.managment.collegemanagment.repository.StudentRepository;
 import com.college.managment.collegemanagment.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class MyController {
@@ -28,13 +31,22 @@ public class MyController {
     }
 
    @GetMapping("/courses")
-   public List<Course> getCourses(){
-      return this.courseService.getCourses();
+   public ResponseEntity<List<Course>> getCourses(){
+
+       List<Course> courses = courseService.getCourses();
+       if(courses.size() <= 0){
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+       }
+      return ResponseEntity.of(Optional.of(courses));
    }
 
    @GetMapping("/courses/{courseId}")
-   public Course getCourse(@PathVariable long courseId){
-        return this.courseService.getcourse(courseId);
+   public ResponseEntity<Course> getCourse(@PathVariable long courseId){
+        Course course = courseService.getcourse(courseId);
+        if(course == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.of(Optional.of(course));
    }
 
    @PostMapping("/courses")
